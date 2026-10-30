@@ -1,284 +1,108 @@
-"use client";
-
-import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import TiltCard from "@/components/TiltCard";
-import AiBotsShowcase from "@/components/AiBotsShowcase";
+import { ArrowRight, Check } from "lucide-react";
+import PageHero from "@/components/PageHero";
+import AgentDemo from "@/components/AgentDemo";
+import ClosingCall from "@/components/ClosingCall";
+import { RidgeSeam } from "@/components/scenery/Ridges";
+import { Button } from "@/components/ui/button";
+import { SERVICES } from "@/lib/content";
+
+export const metadata = {
+  title: "Solutions | Hajolong Solutions",
+  description:
+    "AI agents and workflow automation, custom web platforms, system redesigns, integrations, dashboards and consulting.",
+};
 
 export default function SolutionsPage() {
-  const solutions = [
-    {
-      id: "web",
-      num: "01",
-      badgeClass: "icon-blue",
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-          <rect x="2" y="3" width="20" height="14" rx="2.5" />
-          <path d="M8 21h8M12 17v4M6 8h4m-4 3h8" />
-        </svg>
-      ),
-      title: "Custom Web & Platform Development",
-      description:
-        "We build fast, responsive, and beautiful websites and web applications tailored precisely to your business needs—no bloated off-the-shelf templates.",
-      highlights: [
-        "Modern Next.js & React Frameworks",
-        "E-Commerce & Client Portals",
-        "High-Speed Mobile Optimization",
-        "Search Engine & SEO Friendly",
-      ],
-      stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Vercel"],
-      badge: "Full-Stack Web",
-    },
-    {
-      id: "ai",
-      num: "02",
-      badgeClass: "icon-lilac",
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-          <rect x="4" y="6" width="16" height="12" rx="3" />
-          <path d="M12 2v4M8 2h8M9 11v2m6-2v2M9 15h6" />
-        </svg>
-      ),
-      title: "Custom AI Bots & Workflow Automation",
-      description:
-        "Deploy intelligent AI bots that handle customer inquiries 24/7, qualify incoming leads, and automate repetitive tasks across your team.",
-      highlights: [
-        "24/7 Customer Support Bots",
-        "Trained on Your Business Documents",
-        "Multi-Platform (Web, WhatsApp, Slack)",
-        "Automated Lead Ingestion",
-      ],
-      stack: ["Python", "OpenAI / Claude API", "LangChain", "FastAPI", "Vector DB"],
-      badge: "AI Bots & Agents",
-      featured: true,
-    },
-    {
-      id: "redesign",
-      num: "03",
-      badgeClass: "icon-peach",
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-          <path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" />
-          <circle cx="12" cy="12" r="4" />
-        </svg>
-      ),
-      title: "System Redesign & Modernization",
-      description:
-        "Is your software slow, confusing, or outdated? We completely restructure clunky legacy tools into intuitive, modern systems your team will love.",
-      highlights: [
-        "Intuitive UI/UX Overhauls",
-        "Faster Page & Data Load Times",
-        "Mobile-Responsive Interfaces",
-        "Zero Loss of Existing Data",
-      ],
-      stack: ["Full UI/UX Redesign", "Next.js", "Cloud Backends", "Zero Downtime"],
-      badge: "Restructuring",
-    },
-    {
-      id: "integration",
-      num: "04",
-      badgeClass: "icon-mint",
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-        </svg>
-      ),
-      title: "Software & API System Integration",
-      description:
-        "Eliminate manual data entry by connecting your CRM, ERP, Stripe payments, inventory, and internal databases into a single synchronized hub.",
-      highlights: [
-        "Seamless Third-Party API Connectors",
-        "Payment & Stripe Integration",
-        "ERP & CRM Synchronization",
-        "Automated Error Notifications",
-      ],
-      stack: ["Stripe API", "REST & GraphQL", "Webhooks", "PostgreSQL", "CRM Sync"],
-      badge: "Integration",
-    },
-    {
-      id: "data",
-      num: "05",
-      badgeClass: "icon-rose",
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-          <ellipse cx="12" cy="5" rx="9" ry="3" />
-          <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
-          <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
-        </svg>
-      ),
-      title: "Data Control & Analytics Dashboards",
-      description:
-        "Take complete command of your company data with clean database structuring, automated reports, and clear visual business intelligence dashboards.",
-      highlights: [
-        "Real-Time Executive Dashboards",
-        "Automated Daily & Weekly Reports",
-        "Safe Data Migration & Backups",
-        "Clean Database Architecture",
-      ],
-      stack: ["PostgreSQL", "Supabase", "Redis", "Real-Time BI", "Daily Backups"],
-      badge: "Data Management",
-    },
-  ];
+  const [agent, ...rest] = SERVICES;
+  const AgentIcon = agent.icon;
 
   return (
-    <div className="pt-28 sm:pt-32 pb-16 sm:pb-20 bg-mesh">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Page Hero */}
-        <div className="max-w-3xl mb-10 sm:mb-12">
-          <div
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold mb-4 border shadow-sm backdrop-blur-xl transition-all hover:scale-105"
-            style={{
-              backgroundColor: "var(--bg-surface-elevated)",
-              borderColor: "var(--neon-cyan)",
-              boxShadow: "0 0 16px var(--neon-spotlight)",
-              color: "var(--accent-highlight)",
-            }}
-          >
-            <span
-              className="w-2 h-2 rounded-full animate-pulse-dot"
-              style={{ backgroundColor: "var(--neon-cyan)" }}
-            />
-            <span>ENGINEERING EXCELLENCE</span>
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 sm:mb-6 text-[var(--text-primary)]">
-            Technology Solutions Designed for{" "}
-            <span className="neon-text-sweep">Real Business Impact.</span>
-          </h1>
-
-          <p className="text-lg sm:text-xl text-[var(--text-secondary)] font-normal leading-relaxed">
-            From custom web platforms to 24/7 AI bots and legacy system overhauls,
-            we engineer robust digital infrastructure that eliminates operational
-            bottlenecks.
-          </p>
-        </div>
-
-        {/* 5 Solutions Grid with 3D TiltCards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-14 sm:mb-16">
-          {solutions.map((sol) => (
-            <TiltCard
-              key={sol.id}
-              maxTilt={6}
-              highlight={sol.featured}
-              className="p-8 border flex flex-col justify-between"
+    <>
+      <PageHero
+        title="AI agents first, and everything they need around them."
+        lead="Six things we build with one senior team. Most projects combine two or three of them."
+      >
+        <nav aria-label="On this page" className="flex flex-wrap gap-2">
+          {SERVICES.map((s) => (
+            <a
+              key={s.id}
+              href={`#${s.id}`}
+              className="rounded-full border border-foreground/20 bg-card/70 px-3.5 py-1.5 text-[0.95rem] transition-colors hover:border-foreground/50 hover:bg-card"
             >
-              <div>
-                <div className="flex items-center justify-between mb-5">
-                  <div className={`icon-badge ${sol.badgeClass}`}>
-                    {sol.icon}
-                  </div>
-                  <span
-                    className="text-[11px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider"
-                    style={{
-                      backgroundColor: "var(--bg-surface-elevated)",
-                      color: "var(--text-muted)",
-                      border: "1px solid var(--border-subtle)",
-                    }}
-                  >
-                    {sol.badge}
-                  </span>
-                </div>
-
-                <h3 className="text-xl font-bold mb-3 text-[var(--text-primary)]">
-                  {sol.title}
-                </h3>
-
-                <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-6 font-normal">
-                  {sol.description}
-                </p>
-
-                {/* Deliverables list */}
-                <div className="mb-6 border-t pt-4" style={{ borderColor: "var(--border-subtle)" }}>
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[var(--text-muted)] block mb-2.5">
-                    Core Capabilities
-                  </span>
-                  <ul className="space-y-2">
-                    {sol.highlights.map((item, idx) => (
-                      <li key={idx} className="text-xs text-[var(--text-secondary)] flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: "var(--neon-cyan)" }} />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Production Stack */}
-                <div className="mb-8 pt-4 border-t" style={{ borderColor: "var(--border-subtle)" }}>
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[var(--text-muted)] block mb-2.5">
-                    Production Stack
-                  </span>
-                  <div className="flex flex-wrap gap-1.5">
-                    {sol.stack.map((tech, idx) => (
-                      <span
-                        key={idx}
-                        className="text-[11px] font-mono px-2.5 py-1 rounded border font-medium"
-                        style={{
-                          backgroundColor: "var(--bg-surface-elevated)",
-                          borderColor: "var(--border-glass)",
-                          color: "var(--text-primary)",
-                        }}
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t" style={{ borderColor: "var(--border-subtle)" }}>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--neon-cyan)] hover:underline"
-                >
-                  <span>Inquire About This Solution &rarr;</span>
-                </Link>
-              </div>
-            </TiltCard>
+              {s.nav}
+            </a>
           ))}
-        </div>
+        </nav>
+      </PageHero>
 
-        {/* Dedicated Interactive AI Bots Showcase Section */}
-        <div className="rounded-3xl border overflow-hidden p-2 sm:p-4 my-8 sm:my-10" style={{ borderColor: "var(--border-glass)" }}>
-          <AiBotsShowcase />
-        </div>
-
-        {/* Luminous Consultation Banner */}
-        <div className="mt-14 sm:mt-16 pt-10 sm:pt-12 border-t" style={{ borderColor: "var(--border-subtle)" }}>
-          <div
-            className="p-10 sm:p-14 rounded-3xl border text-center relative overflow-hidden transition-all hover:scale-[1.01]"
-            style={{
-              backgroundColor: "var(--bg-surface)",
-              borderColor: "var(--border-glass)",
-            }}
-          >
-            <div
-              className="pointer-events-none absolute -top-24 -left-24 w-72 h-72 rounded-full opacity-30 blur-3xl"
-              style={{ background: "var(--neon-cyan)" }}
-            />
-            <div
-              className="pointer-events-none absolute -bottom-24 -right-24 w-72 h-72 rounded-full opacity-20 blur-3xl"
-              style={{ background: "var(--neon-blue)" }}
-            />
-
-            <h3 className="text-2xl sm:text-3xl font-extrabold font-display mb-3 text-[var(--text-primary)] relative z-10">
-              Not sure which solution matches your current stage?
-            </h3>
-            <p className="text-sm sm:text-base text-[var(--text-secondary)] mb-8 max-w-xl mx-auto font-normal relative z-10">
-              We will review your company’s existing tech stack and provide an honest,
-              plain-English roadmap within 2 hours.
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-4 relative z-10">
-              <Link href="/contact" className="px-8 py-3.5 rounded-xl font-bold text-sm btn-primary shadow-lg">
-                <span>Schedule Free Technical Consultation &rarr;</span>
-              </Link>
+      <section id={agent.id} className="scroll-mt-20 bg-[var(--plane-5)] pt-10 pb-[calc(5rem+min(8.75vw,150px))] text-pine-ink" aria-labelledby="ai-title">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="reveal grid gap-8 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-7">
+              <span className="grid size-12 place-items-center rounded-xl bg-white/10 text-pine-ink">
+                <AgentIcon className="size-6" strokeWidth={1.75} aria-hidden="true" />
+              </span>
+              <h2 id="ai-title" className="mt-6 font-display text-[clamp(2.2rem,4.2vw,3.4rem)] leading-[1.04] font-extrabold">
+                {agent.title}
+              </h2>
+              <p className="mt-5 max-w-[40rem] text-lg text-pine-muted">{agent.desc}</p>
             </div>
+            <ul className="grid gap-3 sm:grid-cols-2 lg:col-span-5 lg:grid-cols-1">
+              {agent.features.map((f) => (
+                <li key={f} className="flex items-center gap-3 text-lg">
+                  <Check className="size-5 text-pine-muted" strokeWidth={2.5} aria-hidden="true" /> {f}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="mt-16">
+            <AgentDemo />
           </div>
         </div>
+      </section>
 
+      <div className="relative">
+        <RidgeSeam fill="var(--background)" plane={1} />
       </div>
-    </div>
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        {rest.map((s, i) => {
+          const Icon = s.icon;
+          return (
+            <section
+              key={s.id}
+              id={s.id}
+              aria-labelledby={`${s.id}-title`}
+              className="reveal grid scroll-mt-20 gap-8 border-b py-20 last:border-b-0 sm:py-24 lg:grid-cols-12"
+            >
+              <div className="lg:col-span-6">
+                <span className="grid size-12 place-items-center rounded-xl bg-[var(--pine)] text-pine-ink">
+                  <Icon className="size-6" strokeWidth={1.75} aria-hidden="true" />
+                </span>
+                <h2 id={`${s.id}-title`} className="mt-6 font-display text-[clamp(1.9rem,3.2vw,2.7rem)] leading-[1.06] font-extrabold">
+                  {s.title}
+                </h2>
+                <p className="mt-4 max-w-[36rem] text-lg text-muted-foreground">{s.desc}</p>
+                <Button asChild variant="outline" className="mt-7">
+                  <Link href={`/contact?services=${s.id}`}>
+                    Ask about this <ArrowRight />
+                  </Link>
+                </Button>
+              </div>
+              <ul className={`grid content-center gap-3 sm:grid-cols-2 lg:col-span-5 ${i % 2 ? "lg:col-start-7" : "lg:col-start-8"}`}>
+                {s.features.map((f) => (
+                  <li key={f} className="cel flex items-center gap-3 px-4 py-4">
+                    <Check className="size-[1.125rem] shrink-0 text-[var(--plane-4)] dark:text-pine-muted" strokeWidth={2.5} aria-hidden="true" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          );
+        })}
+      </div>
+
+      <ClosingCall title="Not sure which of these you need?" body="Describe the problem instead. We'll tell you, in plain English, what we'd build and how long it would take, within 2 hours." action="Describe your problem" />
+    </>
   );
 }

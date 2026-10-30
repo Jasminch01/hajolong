@@ -1,234 +1,118 @@
-"use client";
-
-import React from "react";
-import Link from "next/link";
 import Image from "next/image";
-import TiltCard from "@/components/TiltCard";
-import OurStory from "@/components/OurStory";
+import PageHero from "@/components/PageHero";
+import { Emblem } from "@/components/BrandLogo";
+import ClosingCall from "@/components/ClosingCall";
+import { RidgeSeam } from "@/components/scenery/Ridges";
+import { PRINCIPLES, TEAM } from "@/lib/content";
+
+export const metadata = {
+  title: "About | Hajolong Solutions",
+  description:
+    "A senior engineering team from the Chittagong Hill Tracts, named after the Hajolong river.",
+};
 
 export default function AboutPage() {
-  const teamMembers = [
-    {
-      name: "Win Chakma",
-      role: "Founder & Lead Technical Architect",
-      image: "/images/team_win_chakma.jpg",
-      tag: "Founder",
-      initials: "WC",
-      accent: "var(--neon-rose)",
-    },
-    {
-      name: "Simon Chakma",
-      role: "Founder & Head of Operations",
-      image: "/images/team_simon_chakma.jpg",
-      tag: "Founder",
-      initials: "SC",
-      accent: "var(--neon-cyan)",
-    },
-    {
-      name: "Tushar Chakma",
-      role: "Founder & Strategic Investment Partner",
-      image: "/images/team_tushar_chakma.jpg",
-      tag: "Founder",
-      initials: "TC",
-      accent: "var(--neon-blue)",
-    },
-    {
-      name: "Bhoumik Chakma",
-      role: "Project Manager & Growth Marketing",
-      image: "/images/team_bhoumik_chakma.jpg",
-      tag: "Project & Marketing",
-      initials: "BC",
-      accent: "var(--neon-cyan)",
-    },
-    {
-      name: "Durnibar Chakma",
-      role: "Head of UI/UX Systems",
-      image: "/images/team_durnibar_chakma.jpg",
-      tag: "Head of UI/UX",
-      initials: "DC",
-      accent: "var(--neon-rose)",
-    },
-    {
-      name: "Jasmin Chakma",
-      role: "Technical Lead & Backend Architecture",
-      image: "",
-      tag: "Technical Lead",
-      initials: "JC",
-      accent: "var(--neon-blue)",
-    },
-  ];
-
   return (
-    <div className="pt-28 sm:pt-32 pb-16 sm:pb-20 bg-mesh">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Page Hero */}
-        <div className="max-w-3xl mb-10 sm:mb-12">
-          <div
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold mb-4 border shadow-sm backdrop-blur-xl transition-all hover:scale-105"
-            style={{
-              backgroundColor: "var(--bg-surface-elevated)",
-              borderColor: "var(--neon-rose)",
-              boxShadow: "0 0 16px var(--neon-spotlight)",
-              color: "var(--accent-highlight)",
-            }}
-          >
-            <span
-              className="w-2 h-2 rounded-full animate-pulse-dot"
-              style={{ backgroundColor: "var(--neon-rose)" }}
-            />
-            <span>ABOUT HAJOLONG SOLUTIONS</span>
-          </div>
+    <>
+      <PageHero
+        title="Built by engineers from the Chittagong Hill Tracts."
+        lead="We started Hajolong Solutions to replace slow legacy software with fast, modern systems, built with the discipline of an established firm."
+      />
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 sm:mb-6 text-[var(--text-primary)]">
-            Built by Engineers.{" "}
-            <span className="text-gradient neon-text-sweep">Dedicated to Your Growth.</span>
-          </h1>
-
-          <p className="text-lg sm:text-xl text-[var(--text-secondary)] font-normal leading-relaxed">
-            Hajolong Solutions was founded with a straightforward mission: eliminate
-            sluggish legacy software and deliver modern, high-speed digital systems
-            with institutional rigor.
-          </p>
-        </div>
-
-        {/* Narrative & Guarantees */}
-        <OurStory />
-
-        {/* Core Leadership & Engineering Team */}
-        <div className="mt-14 sm:mt-16 pt-10 sm:pt-12 border-t" style={{ borderColor: "var(--border-subtle)" }}>
-          <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-            <span className="text-xs font-mono font-bold text-[var(--neon-rose)] uppercase tracking-wider">
-              The Leadership & Engineering Team
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 text-[var(--text-primary)]">
-              Meet Our Leadership Team
+      <section className="bg-[var(--plane-5)] pt-10 pb-[calc(5rem+min(8.75vw,150px))] text-pine-ink" aria-labelledby="name-title">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-12">
+          <div className="reveal lg:col-span-5">
+            <h2 id="name-title" className="font-display text-[clamp(2rem,3.6vw,3rem)] leading-[1.06] font-extrabold">
+              Named after a river.
             </h2>
-            <p className="text-sm text-[var(--text-secondary)] mt-2">
-              You collaborate directly with principal leaders and engineers building your systems.
+            <Emblem className="mt-10 h-44 w-40 text-pine-ink/85 [--river-ink:var(--river)]" />
+          </div>
+          <div className="reveal space-y-5 text-lg text-pine-muted lg:col-span-6 lg:col-start-7">
+            <p>
+              <span className="text-pine-ink">Hajolong, called Kassalong in Bangla, is a river in the Chittagong Hill Tracts</span> of Bangladesh,
+              the hills our team comes from. We named the company after it, and we carry it into everything we build.
+            </p>
+            <p>
+              Too many businesses are stuck between slow consultancies that bill six figures before writing any code,
+              and freelancers who disappear when production breaks. We built a different model: you work directly with
+              the principal engineers who design, build and deploy your web platforms, AI agents and cloud systems, in
+              weeks rather than years.
             </p>
           </div>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {teamMembers.map((member, idx) => (
-              <TiltCard
-                key={idx}
-                maxTilt={5}
-                className="p-5 border flex flex-col justify-between group relative overflow-hidden"
-              >
-                <div>
-                  {/* Portrait Photo Container */}
-                  <div
-                    className="relative w-full aspect-[4/5] rounded-xl overflow-hidden mb-4 border flex items-center justify-center transition-transform duration-300 group-hover:scale-[1.01]"
-                    style={{
-                      backgroundColor: "var(--bg-surface-elevated)",
-                      borderColor: "var(--border-glass)",
-                    }}
-                  >
-                    {member.image ? (
-                      <div className="relative w-full h-full">
-                        <Image
-                          src={member.image}
-                          alt={member.name}
-                          fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                          priority={idx < 2}
-                        />
-                      </div>
-                    ) : (
-                      <div className="text-center p-4 relative z-10">
-                        <div
-                          className="w-16 h-16 rounded-full mx-auto mb-2 flex items-center justify-center text-xl font-bold font-mono border"
-                          style={{
-                            backgroundColor: "var(--bg-surface)",
-                            borderColor: member.accent,
-                            color: member.accent,
-                          }}
-                        >
-                          {member.initials}
-                        </div>
-                        <span className="text-[11px] font-mono text-[var(--text-muted)] block">
-                          Photo Coming Soon
+      <section className="relative pt-24 pb-[calc(5rem+min(8.75vw,150px))] sm:pt-32" aria-labelledby="team-title">
+        <RidgeSeam fill="var(--background)" plane={1} />
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="reveal max-w-2xl">
+            <h2 id="team-title" className="font-display text-[clamp(2rem,3.6vw,3rem)] leading-[1.06] font-extrabold">
+              The people you&rsquo;ll actually work with.
+            </h2>
+            <p className="mt-5 text-lg text-muted-foreground">
+              No account managers in between. These are the leaders and engineers who build your systems.
+            </p>
+          </div>
+          <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {TEAM.map((m, i) => (
+              <li key={m.name} className="reveal" style={{ ["--delay" as string]: `${(i % 3) * 70}ms` }}>
+                <article className="cel cel-lift group overflow-hidden">
+                  <div className="relative aspect-[4/5] overflow-hidden bg-[var(--plane-4)]">
+                    {m.image ? (
+                      <Image
+                        src={m.image}
+                        alt={`Portrait of ${m.name}`}
+                        fill
+                        sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
+                        className="object-cover saturate-[0.82] contrast-[1.03] sepia-[0.08] transition-transform duration-[1.2s] ease-[var(--ease-out-expo)] group-hover:scale-[1.03]"
+                        style={m.focus ? { objectPosition: m.focus.position, scale: String(m.focus.scale), transformOrigin: "top" } : undefined}
+                      />
+                    ) : null}
+                    {m.image && (
+                      <span aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgb(42_33_26/0.32),transparent_45%)]" />
+                    )}
+                    {!m.image && (
+                      <div className="grid size-full place-items-center text-pine-ink">
+                        <span className="font-display text-6xl font-extrabold opacity-80">
+                          {m.name.split(" ").map((n) => n[0]).join("")}
                         </span>
+                        <span className="absolute bottom-5 text-sm text-pine-muted">Photo coming soon</span>
                       </div>
                     )}
                   </div>
-
-                  <div className="flex items-center mb-2">
-                    <span
-                      className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded border"
-                      style={{
-                        backgroundColor: "var(--bg-surface-elevated)",
-                        borderColor: "var(--border-subtle)",
-                        color: member.accent,
-                      }}
-                    >
-                      {member.tag}
-                    </span>
+                  <div className="px-5 py-5">
+                    <h3 className="font-display text-2xl font-bold">{m.name}</h3>
+                    <p className="mt-1 text-muted-foreground">{m.role}</p>
                   </div>
-
-                  <h3 className="text-base font-bold text-[var(--text-primary)] mb-1">
-                    {member.name}
-                  </h3>
-                  <div
-                    className="text-xs font-semibold"
-                    style={{ color: member.accent }}
-                  >
-                    {member.role}
-                  </div>
-                </div>
-
-                <div className="pt-3 mt-4 border-t flex items-center justify-between" style={{ borderColor: "var(--border-subtle)" }}>
-                  <span className="text-[10px] text-[var(--text-muted)] font-mono">
-                    Hajolong Solutions
-                  </span>
-                  <span
-                    className="text-xs font-bold transition-transform group-hover:translate-x-1"
-                    style={{ color: member.accent }}
-                  >
-                    Team &rarr;
-                  </span>
-                </div>
-              </TiltCard>
+                </article>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
+      </section>
 
-        {/* Luminous Consultation Banner */}
-        <div className="mt-14 sm:mt-16 pt-10 sm:pt-12 border-t" style={{ borderColor: "var(--border-subtle)" }}>
-          <div
-            className="p-10 sm:p-14 rounded-3xl border text-center relative overflow-hidden transition-all hover:scale-[1.01]"
-            style={{
-              backgroundColor: "var(--bg-surface)",
-              borderColor: "var(--border-glass)",
-            }}
-          >
-            <div
-              className="pointer-events-none absolute -top-24 -left-24 w-72 h-72 rounded-full opacity-30 blur-3xl"
-              style={{ background: "var(--neon-rose)" }}
-            />
-            <div
-              className="pointer-events-none absolute -bottom-24 -right-24 w-72 h-72 rounded-full opacity-20 blur-3xl"
-              style={{ background: "var(--neon-blue)" }}
-            />
-
-            <h3 className="text-2xl sm:text-3xl font-extrabold font-display mb-3 text-[var(--text-primary)] relative z-10">
-              Ready to partner with an engineering firm that actually delivers?
-            </h3>
-            <p className="text-sm sm:text-base text-[var(--text-secondary)] mb-8 max-w-xl mx-auto font-normal relative z-10">
-              Let’s discuss your current systems and explore how we can modernize your
-              company.
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-4 relative z-10">
-              <Link href="/contact" className="px-8 py-3.5 rounded-xl font-bold text-sm btn-primary shadow-lg">
-                <span>Schedule Discovery Call &rarr;</span>
-              </Link>
-            </div>
-          </div>
+      <section className="relative bg-muted py-24" aria-labelledby="principles-title">
+        <RidgeSeam fill="var(--muted)" plane={2} flip />
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <h2 id="principles-title" className="reveal max-w-2xl font-display text-[clamp(2rem,3.6vw,3rem)] leading-[1.06] font-extrabold">
+            Four promises we keep on every project.
+          </h2>
+          <dl className="mt-12 grid gap-x-10 gap-y-10 sm:grid-cols-2">
+            {PRINCIPLES.map((p, i) => (
+              <div key={p.title} className="reveal border-t pt-6" style={{ ["--delay" as string]: `${i * 60}ms` }}>
+                <dt className="font-display text-2xl font-bold">{p.title}</dt>
+                <dd className="mt-2 max-w-md text-lg text-muted-foreground">{p.desc}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
+      </section>
 
-      </div>
-    </div>
+      <ClosingCall
+        title="Work with an engineering team that delivers."
+        body="Tell us about your current systems and we'll show you, in plain English, how we would modernize them."
+        action="Schedule a discovery call"
+      />
+    </>
   );
 }

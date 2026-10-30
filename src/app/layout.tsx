@@ -1,54 +1,37 @@
 import type { Metadata } from "next";
-import {
-  Bricolage_Grotesque,
-  Outfit,
-  Plus_Jakarta_Sans,
-  JetBrains_Mono,
-} from "next/font/google";
+import { Alegreya, Alegreya_Sans } from "next/font/google";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import MotionRoot from "@/components/MotionRoot";
+import SmoothScroll from "@/components/SmoothScroll";
+import MotionProvider from "@/components/MotionProvider";
 
-const fontDisplay = Bricolage_Grotesque({
-  subsets: ["latin"],
-  weight: ["700", "800"],
-  variable: "--font-display",
-  display: "swap",
-});
-
-const fontHeading = Outfit({
+const display = Alegreya({
   subsets: ["latin"],
   weight: ["500", "600", "700", "800"],
-  variable: "--font-heading",
+  style: ["normal", "italic"],
+  variable: "--font-alegreya",
   display: "swap",
 });
 
-const fontSans = Plus_Jakarta_Sans({
+const sans = Alegreya_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-sans",
-  display: "swap",
-});
-
-const fontMono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-mono",
+  weight: ["400", "500", "700", "800"],
+  variable: "--font-alegreya-sans",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "HAJOLONG SOLUTIONS | Custom Software, AI Bots & System Integration",
-  description: "Hajolong Solutions engineers custom web platforms, intelligent AI bots, legacy software redesigns, and enterprise systems that scale businesses.",
+  title: "Hajolong Solutions | Agentic AI and custom software",
+  description:
+    "Hajolong Solutions builds AI agents on Google and Amazon models, fine-tuned to your data, and the web platforms around them. A senior team from the Chittagong Hill Tracts.",
   icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/icon.png", type: "image/png" },
-    ],
-    apple: [
-      { url: "/apple-icon.png" },
-    ],
+    icon: [{ url: "/favicon.ico" }, { url: "/icon.png", type: "image/png" }],
+    apple: [{ url: "/apple-icon.png" }],
   },
 };
 
@@ -62,39 +45,27 @@ export default function RootLayout({
       lang="en"
       data-theme="light"
       suppressHydrationWarning
-      className={`${fontDisplay.variable} ${fontHeading.variable} ${fontSans.variable} ${fontMono.variable}`}
+      className={`${display.variable} ${sans.variable}`}
     >
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("hajolong-theme");if(t==="dark"||t==="light"){document.documentElement.setAttribute("data-theme",t);}else if(window.matchMedia("(prefers-color-scheme: dark)").matches){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();`,
+            __html: `(function(){try{var d=document.documentElement;var t=localStorage.getItem("hajolong-theme");if(t==="dark"||t==="light"){d.setAttribute("data-theme",t);}else if(window.matchMedia("(prefers-color-scheme: dark)").matches){d.setAttribute("data-theme","dark");}if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches){d.classList.add("js-motion");}}catch(e){}})();`,
           }}
         />
       </head>
-      <body className="min-h-screen flex flex-col antialiased selection:bg-blue-500 selection:text-white bg-[var(--bg-deep)] text-[var(--text-primary)] font-sans relative">
-        {/* Global Ambient Low Background Neon Lights */}
-        <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden select-none">
-          {/* Top-Left Low Neon Cyan Light */}
-          <div
-            className="ambient-neon-orb-1 absolute -top-[10%] left-[8%] w-[620px] h-[620px] rounded-full blur-[140px] opacity-15 transition-all duration-700"
-            style={{ background: "var(--neon-cyan)" }}
-          />
-          {/* Mid-Right Low Neon Blue Light */}
-          <div
-            className="ambient-neon-orb-2 absolute top-[36%] -right-[8%] w-[680px] h-[680px] rounded-full blur-[160px] opacity-12 transition-all duration-700"
-            style={{ background: "var(--neon-blue)" }}
-          />
-          {/* Bottom-Left Low Neon Secondary Light */}
-          <div
-            className="ambient-neon-orb-3 absolute bottom-[8%] left-[12%] w-[580px] h-[580px] rounded-full blur-[150px] opacity-10 transition-all duration-700"
-            style={{ background: "var(--accent-secondary)" }}
-          />
-        </div>
-
+      <body className="min-h-screen flex flex-col">
         <ThemeProvider>
-          <Navbar />
-          <main className="flex-1 w-full">{children}</main>
-          <Footer />
+          <MotionProvider>
+          <TooltipProvider delayDuration={200}>
+            <MotionRoot />
+            <SmoothScroll />
+            <Navbar />
+            <main className="flex-1 w-full">{children}</main>
+            <Footer />
+            <div className="grain" aria-hidden="true" />
+          </TooltipProvider>
+          </MotionProvider>
         </ThemeProvider>
       </body>
     </html>

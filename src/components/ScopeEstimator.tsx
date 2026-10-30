@@ -1,245 +1,134 @@
 "use client";
 
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import { AnimatePresence, animate, motion, useMotionValue, useTransform } from "motion/react";
+import Link from "next/link";
+import { ArrowRight, Check } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { SERVICES, type ServiceId } from "@/lib/content";
+import { cn } from "@/lib/utils";
+
+export function estimateWeeks(ids: string[]) {
+  const sum = ids.reduce((acc, id) => acc + (SERVICES.find((s) => s.id === id)?.weeks ?? 1), 0);
+  return Math.max(3, Math.min(8, sum - (ids.length > 2 ? 2 : 0)));
+}
 
 export default function ScopeEstimator() {
-  const [selectedModules, setSelectedModules] = useState<string[]>([
-    "web",
-    "ai",
-  ]);
+  const [picked, setPicked] = useState<ServiceId[]>(["ai", "web"]);
 
-  const modules = [
-    {
-      id: "web",
-      name: "Custom Web Platform / Web App",
-      desc: "Fast, responsive web system built from scratch with Next.js & React.",
-      icon: "🌐",
-      weeks: 3,
-    },
-    {
-      id: "ai",
-      name: "Custom AI Bot & 24/7 Agent",
-      desc: "Trained on your company docs to handle support and capture leads.",
-      icon: "🤖",
-      weeks: 2,
-    },
-    {
-      id: "redesign",
-      name: "System Redesign & Restructuring",
-      desc: "Modernize slow legacy software into an intuitive, high-speed interface.",
-      icon: "✨",
-      weeks: 3,
-    },
-    {
-      id: "integration",
-      name: "Software & API Integrations",
-      desc: "Sync your CRM, ERP, Stripe payments, and databases seamlessly.",
-      icon: "🔗",
-      weeks: 2,
-    },
-    {
-      id: "data",
-      name: "Data Control & Analytics Board",
-      desc: "Organize company records with real-time visual executive dashboards.",
-      icon: "📊",
-      weeks: 2,
-    },
-    {
-      id: "consulting",
-      name: "Growth Consulting & Strategy",
-      desc: "Digital marketing roadmap, audience acquisition, and scaling advisory.",
-      icon: "📈",
-      weeks: 1,
-    },
-  ];
+  const toggle = (id: ServiceId) =>
+    setPicked((cur) =>
+      cur.includes(id) ? (cur.length > 1 ? cur.filter((x) => x !== id) : cur) : [...cur, id]
+    );
 
-  const toggleModule = (id: string) => {
-    if (selectedModules.includes(id)) {
-      if (selectedModules.length > 1) {
-        setSelectedModules(selectedModules.filter((m) => m !== id));
-      }
-    } else {
-      setSelectedModules([...selectedModules, id]);
-    }
-  };
-
-  // Calculate estimated turnaround weeks
-  const totalWeeks = Math.max(
-    3,
-    Math.min(
-      8,
-      selectedModules.reduce((acc, curr) => {
-        const item = modules.find((m) => m.id === curr);
-        return acc + (item ? item.weeks : 1);
-      }, 0) - (selectedModules.length > 2 ? 2 : 0)
-    )
-  );
+  const weeks = estimateWeeks(picked);
+  // the estimate counts toward its new value instead of jumping
+  const weeksMV = useMotionValue(weeks);
+  const range = useTransform(() => {
+    const w = Math.round(weeksMV.get());
+    return `${w}\u2013${w + 2}`;
+  });
+  useEffect(() => {
+    const controls = animate(weeksMV, weeks, { duration: 0.5, ease: [0.16, 1, 0.3, 1] });
+    return () => controls.stop();
+  }, [weeks, weeksMV]);
+  const href = `/contact?services=${picked.join(",")}`;
 
   return (
-    <section id="scope" className="py-12 sm:py-16 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
-          <div
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-4 border"
-            style={{
-              backgroundColor: "var(--bg-surface)",
-              borderColor: "var(--border-accent)",
-              color: "var(--accent-highlight)",
-            }}
-          >
-            <span>TRANSPARENT PLANNING</span>
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-6">
-            Calculate Your Project Scope.{" "}
-            <span className="text-gradient">Zero Guesswork.</span>
-          </h2>
-
-          <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
-            Select the digital solutions your business needs below to see instant
-            projections on estimated delivery milestones and dedicated team
-            composition.
-          </p>
-        </div>
-
-        {/* Interactive Estimator Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* Module Selector (Left 7 Cols) */}
-          <div className="lg:col-span-7 space-y-3">
-            <div className="text-xs font-mono font-bold text-[var(--text-muted)] uppercase tracking-wider mb-2">
-              Select Required Solutions:
-            </div>
-
-            {modules.map((m) => {
-              const active = selectedModules.includes(m.id);
-              return (
-                <div
-                  key={m.id}
-                  onClick={() => toggleModule(m.id)}
-                  className={`p-4 sm:p-5 rounded-2xl border cursor-pointer transition-all duration-200 flex items-center justify-between gap-4 ${
-                    active
-                      ? "border-blue-500 shadow-md ring-1 ring-blue-500/30"
-                      : "border-[var(--border-subtle)] hover:border-blue-500/40"
-                  }`}
-                  style={{
-                    backgroundColor: active
-                      ? "var(--bg-surface-elevated)"
-                      : "var(--bg-surface-glass)",
-                  }}
-                >
-                  <div className="flex items-center gap-3.5">
-                    <span className="text-2xl shrink-0">{m.icon}</span>
-                    <div>
-                      <h4 className="text-sm sm:text-base font-bold text-[var(--text-primary)]">
-                        {m.name}
-                      </h4>
-                      <p className="text-xs text-[var(--text-secondary)] font-normal mt-0.5">
-                        {m.desc}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div
-                    className={`w-5 h-5 rounded-md flex items-center justify-center border shrink-0 transition-colors ${
-                      active
-                        ? "bg-blue-600 border-blue-500 text-white"
-                        : "border-[var(--border-subtle)]"
-                    }`}
-                  >
-                    {active && (
-                      <svg className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
-                        <path
-                          fillRule="evenodd"
-                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Results Summary Box (Right 5 Cols) */}
-          <div className="lg:col-span-5 sticky top-28">
-            <div
-              className="p-8 rounded-3xl border shadow-2xl backdrop-blur-2xl"
-              style={{
-                backgroundColor: "var(--bg-surface)",
-                borderColor: "var(--border-accent)",
-              }}
-            >
-              <div className="flex items-center justify-between pb-4 border-b" style={{ borderColor: "var(--border-subtle)" }}>
-                <span className="text-xs font-mono font-bold text-[var(--accent-highlight)] uppercase tracking-wider">
-                  Scope Summary
-                </span>
-                <span className="text-xs px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-400 font-semibold">
-                  {selectedModules.length} Modules Selected
-                </span>
-              </div>
-
-              {/* Estimated Timeline */}
-              <div className="py-6 border-b" style={{ borderColor: "var(--border-subtle)" }}>
-                <span className="text-xs text-[var(--text-muted)] font-mono uppercase tracking-wider">
-                  Estimated Delivery Timeline
-                </span>
-                <div className="text-4xl font-extrabold text-[var(--text-primary)] font-display mt-1">
-                  {totalWeeks}–{totalWeeks + 2}{" "}
-                  <span className="text-lg font-normal text-[var(--text-secondary)]">
-                    Weeks
-                  </span>
-                </div>
-                <p className="text-xs text-[var(--text-secondary)] mt-2">
-                  Structured into bi-weekly production sprints with weekly review calls.
-                </p>
-              </div>
-
-              {/* Dedicated Engineering Pod */}
-              <div className="py-6 border-b" style={{ borderColor: "var(--border-subtle)" }}>
-                <span className="text-xs text-[var(--text-muted)] font-mono uppercase tracking-wider">
-                  Assigned Engineering Pod
-                </span>
-                <ul className="mt-3 space-y-2 text-xs text-[var(--text-primary)]">
-                  <li className="flex items-center gap-2">
-                    <span className="text-blue-500">✓</span> 1 Principal Technical Director
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="text-blue-500">✓</span> 2 Senior Full-Stack Engineers
-                  </li>
-                  {selectedModules.includes("ai") && (
-                    <li className="flex items-center gap-2 text-[var(--accent-highlight)]">
-                      <span className="text-blue-500">✓</span> 1 Dedicated AI Bot Specialist
-                    </li>
+    <div className="grid items-start gap-6 lg:grid-cols-12">
+      <fieldset className="lg:col-span-7">
+        <legend className="sr-only">Pick what your project needs</legend>
+        <ul className="grid gap-2.5">
+          {SERVICES.map((s) => {
+            const on = picked.includes(s.id);
+            const Icon = s.icon;
+            return (
+              <li key={s.id}>
+                <label
+                  htmlFor={`scope-${s.id}`}
+                  className={cn(
+                    "cel cel-lift flex cursor-pointer items-center gap-4 p-4 sm:p-5",
+                    on && "border-foreground/45"
                   )}
-                  <li className="flex items-center gap-2">
-                    <span className="text-blue-500">✓</span> UI/UX Designer & QA Specialist
-                  </li>
-                </ul>
-              </div>
-
-              {/* CTA Action */}
-              <div className="pt-6">
-                <a
-                  href="#contact"
-                  className="w-full py-4 rounded-xl font-bold text-sm btn-primary flex items-center justify-center gap-2 tracking-wide shadow-lg"
                 >
-                  <span>Lock In This Scope & Schedule Call &rarr;</span>
-                </a>
-                <p className="text-center text-[11px] text-[var(--text-muted)] mt-3">
-                  No commitment required • Free technical review
-                </p>
-              </div>
+                  <span
+                    className={cn(
+                      "grid size-10 shrink-0 place-items-center rounded-lg transition-colors duration-300",
+                      on ? "bg-[var(--pine)] text-pine-ink" : "bg-muted text-muted-foreground"
+                    )}
+                  >
+                    <Icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-semibold">{s.title}</span>
+                    <span className="block text-[0.95rem] text-muted-foreground">{s.short}</span>
+                  </span>
+                  <Checkbox
+                    id={`scope-${s.id}`}
+                    checked={on}
+                    onCheckedChange={() => toggle(s.id)}
+                    className="size-5"
+                  />
+                </label>
+              </li>
+            );
+          })}
+        </ul>
+      </fieldset>
 
-            </div>
-          </div>
-
+      <aside className="cel-pine p-7 sm:p-8 lg:sticky lg:top-24 lg:col-span-5" aria-live="polite">
+        <div className="flex items-baseline justify-between gap-4 border-b border-white/10 pb-5">
+          <h3 className="font-display text-2xl font-bold">Your scope</h3>
+          <span className="text-sm text-pine-muted tabular-nums">
+            {picked.length} {picked.length === 1 ? "part" : "parts"}
+          </span>
         </div>
 
-      </div>
-    </section>
+        <div className="border-b border-white/10 py-6">
+          <p className="text-sm text-pine-muted">Estimated delivery</p>
+          <p className="mt-1 font-display text-5xl font-extrabold tabular-nums">
+            <motion.span>{range}</motion.span>
+            <span className="ml-2 font-sans text-xl font-medium text-pine-muted">weeks</span>
+          </p>
+          <p className="mt-2 text-[0.95rem] text-pine-muted">In two-week milestones, with a review call every week.</p>
+        </div>
+
+        <div className="py-6">
+          <p className="text-sm text-pine-muted">Who works on it</p>
+          <ul className="mt-3 grid">
+            <AnimatePresence initial={false}>
+              {[
+                "1 principal technical director",
+                "2 senior full-stack engineers",
+                ...(picked.includes("ai") ? ["1 dedicated AI agent specialist"] : []),
+                "A UI/UX designer and a QA specialist",
+              ].map((r) => (
+                <motion.li
+                  key={r}
+                  className="overflow-hidden"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <span className="flex items-center gap-2.5 py-1">
+                    <Check className="size-4 text-pine-muted" strokeWidth={2.5} aria-hidden="true" />
+                    {r}
+                  </span>
+                </motion.li>
+              ))}
+            </AnimatePresence>
+          </ul>
+        </div>
+
+        <Button asChild variant="lamp" size="lg" className="w-full">
+          <Link href={href}>
+            Send this scope to the team <ArrowRight />
+          </Link>
+        </Button>
+        <p className="mt-3 text-center text-sm text-pine-muted">No commitment. Free technical review.</p>
+      </aside>
+    </div>
   );
 }

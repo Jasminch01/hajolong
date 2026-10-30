@@ -1,47 +1,75 @@
-"use client";
+import { Suspense } from "react";
+import { Clock, Mail } from "lucide-react";
+import PageHero from "@/components/PageHero";
+import ContactForm from "@/components/ContactForm";
+import { CONTACT_EMAIL, LINKEDIN_URL, LinkedInIcon, gmailComposeUrl } from "@/components/icons";
 
-import React from "react";
-import ContactSection from "@/components/ContactSection";
+export const metadata = {
+  title: "Contact | Hajolong Solutions",
+  description: "Tell us what you want to build. An engineer replies with a plain-English assessment within 2 hours.",
+};
+
+const next = [
+  "An engineer reads your message, not a sales rep.",
+  "Within 2 hours you get a plain-English assessment and a realistic timeline.",
+  "If it's a fit, we book a call and plan the first two-week milestone.",
+];
 
 export default function ContactPage() {
   return (
-    <div className="pt-28 sm:pt-32 pb-16 sm:pb-20 bg-mesh">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Page Hero */}
-        <div className="max-w-3xl mb-8 sm:mb-10">
-          <div
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold mb-4 border shadow-sm backdrop-blur-xl transition-all hover:scale-105"
-            style={{
-              backgroundColor: "var(--bg-surface-elevated)",
-              borderColor: "var(--neon-rose)",
-              boxShadow: "0 0 16px var(--neon-spotlight)",
-              color: "var(--accent-highlight)",
-            }}
-          >
-            <span
-              className="w-2 h-2 rounded-full animate-pulse-dot"
-              style={{ backgroundColor: "var(--neon-rose)" }}
-            />
-            <span>START A CONVERSATION</span>
+    <>
+      <PageHero
+        title="Tell us what you want to build."
+        lead="A new web app, an AI agent for your customers, or a rebuild of the system your team struggles with."
+      />
+
+      <section className="bg-[var(--plane-5)] pt-6 pb-24" aria-label="Contact">
+        <div className="mx-auto grid max-w-7xl gap-8 px-5 sm:px-8 lg:grid-cols-12">
+          <div className="reveal lg:col-span-7">
+            <Suspense fallback={<div className="cel h-[36rem]" />}>
+              <ContactForm />
+            </Suspense>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 text-[var(--text-primary)]">
-            Get in Touch with{" "}
-            <span className="text-gradient neon-text-sweep">Hajolong Solutions.</span>
-          </h1>
+          <aside className="grid content-start gap-8 text-pine-ink lg:col-span-4 lg:col-start-9">
+            <div className="reveal">
+              <h2 className="flex items-center gap-2.5 font-display text-2xl font-bold">
+                <Clock className="size-5 text-pine-muted" aria-hidden="true" /> What happens next
+              </h2>
+              <ol className="mt-5 grid gap-4">
+                {next.map((n, i) => (
+                  <li key={n} className="grid grid-cols-[1.75rem_1fr] gap-3 text-pine-muted">
+                    <span className="grid size-7 place-items-center rounded-full border border-pine-muted/40 text-sm font-bold text-pine-ink tabular-nums">
+                      {i + 1}
+                    </span>
+                    {n}
+                  </li>
+                ))}
+              </ol>
+            </div>
 
-          <p className="text-lg sm:text-xl text-[var(--text-secondary)] font-normal leading-relaxed">
-            Whether you want to build a new website from scratch, deploy a 24/7 AI
-            bot, or restructure your existing business software, we are ready to
-            help.
-          </p>
+            <div className="reveal border-t border-white/10 pt-8">
+              <h2 className="font-display text-2xl font-bold">Prefer email?</h2>
+              <a
+                href={gmailComposeUrl("Project inquiry for Hajolong Solutions")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-flex items-center gap-2.5 text-lg font-semibold underline-offset-4 hover:underline"
+              >
+                <Mail className="size-5 text-pine-muted" aria-hidden="true" /> {CONTACT_EMAIL}
+              </a>
+              <a
+                href={LINKEDIN_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 flex items-center gap-2.5 text-pine-muted hover:text-pine-ink hover:underline"
+              >
+                <LinkedInIcon className="size-5" /> Message us on LinkedIn
+              </a>
+            </div>
+          </aside>
         </div>
-
-        {/* Dedicated Contact Section */}
-        <ContactSection />
-
-      </div>
-    </div>
+      </section>
+    </>
   );
 }

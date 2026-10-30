@@ -1,133 +1,140 @@
-"use client";
-
-import React from "react";
 import Link from "next/link";
+import { Mail } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
+import { RIVER_BANKS, RIVER_SPUR, RIVER_VIEWBOX } from "@/components/scenery/paths";
+import { wavePath } from "@/components/scenery/waves";
+import { CONTACT_EMAIL, LINKEDIN_URL, LinkedInIcon, gmailComposeUrl } from "@/components/icons";
+
+// The Hajolong, drawn by hand: widest near the viewer where it rises from the
+// footer ground at the left, it winds through an S-bend, makes one last bend
+// to the right and slips behind a mountain shoulder (RIVER_SPUR), so its end is
+// hidden by the hill rather than drawn. Clipped to the land, so it never spills
+// into the sky.
+const RIVER =
+  "M-40 322 C140 318 340 302 470 282 C590 260 600 222 690 214 C790 206 880 238 980 260 " +
+  "C1060 278 1120 270 1180 248 C1230 228 1280 212 1340 202 " +
+  "L1340 226 C1290 240 1250 260 1200 286 C1130 322 1060 328 970 302 C870 278 790 252 712 252 " +
+  "C650 254 630 306 520 330 C360 358 160 374 -40 382 Z";
+
+const SEA_BACK = wavePath({ mid: 362, amp: 7, bottom: 420, phase: 0.6 });
+const SEA_FRONT = wavePath({ mid: 384, amp: 6, bottom: 420, phase: 2.2, cycles: [3, 8] });
+// the same crest as an open line: a faint highlight riding the front wave
+const SEA_FRONT_LINE = SEA_FRONT.replace(/^M0 420 L/, "M").replace(/ L3200 420 Z$/, "");
+
+const explore = [
+  { href: "/solutions", label: "Solutions" },
+  { href: "/services", label: "Services" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+];
 
 export default function Footer() {
   return (
-    <footer
-      className="border-t py-12 sm:py-14"
-      style={{
-        backgroundColor: "var(--bg-deep)",
-        borderColor: "var(--border-subtle)",
-      }}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main Footer Grid: Brand Column + 4 Link Columns */}
-        <div
-          className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-10 border-b"
-          style={{ borderColor: "var(--border-subtle)" }}
-        >
-          {/* Brand Column */}
-          <div className="md:col-span-4 space-y-4">
-            <Link href="/" className="inline-block group">
-              <BrandLogo className="transition-transform duration-200 group-hover:scale-[1.02]" />
-            </Link>
-            <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed max-w-xs">
-              Custom web platforms, autonomous 24/7 AI bots, and legacy system modernization engineered for real business growth.
+    <footer className="relative mt-24 text-pine-ink">
+      {/* The Hajolong rises from the footer ground at the left, bends, and runs behind the mountain */}
+      <svg
+        viewBox={RIVER_VIEWBOX}
+        preserveAspectRatio="none"
+        className="block h-[clamp(150px,26.25vw,560px)] w-full overflow-hidden"
+        aria-hidden="true"
+      >
+        <defs>
+          {/* deep water near the viewer, paling as it recedes toward the bend */}
+          <linearGradient id="river-flow" gradientUnits="userSpaceOnUse" x1="0" y1="340" x2="1600" y2="60">
+            <stop offset="0" style={{ stopColor: "var(--river)" }} />
+            <stop offset="0.45" style={{ stopColor: "color-mix(in oklab, var(--river) 55%, var(--river-light))" }} />
+            <stop offset="0.8" style={{ stopColor: "var(--river-light)" }} />
+          </linearGradient>
+          <linearGradient id="river-edge" gradientUnits="userSpaceOnUse" x1="0" y1="340" x2="1600" y2="60">
+            <stop offset="0" style={{ stopColor: "var(--river-light)", stopOpacity: 0.5 }} />
+            <stop offset="0.85" style={{ stopColor: "var(--river-light)", stopOpacity: 0 }} />
+          </linearGradient>
+          <linearGradient id="river-mist" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" style={{ stopColor: "var(--sky-low)", stopOpacity: 0 }} />
+            <stop offset="0.6" style={{ stopColor: "var(--sky-low)", stopOpacity: 0.45 }} />
+            <stop offset="1" style={{ stopColor: "var(--sky-low)", stopOpacity: 0 }} />
+          </linearGradient>
+          <clipPath id="on-land">
+            <path d={RIVER_BANKS[0]} />
+          </clipPath>
+          <clipPath id="above-sea">
+            <rect width="1600" height="372" />
+          </clipPath>
+          <linearGradient id="sea-fade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" style={{ stopColor: "var(--sea)", stopOpacity: 0 }} />
+            <stop offset="1" style={{ stopColor: "var(--sea)" }} />
+          </linearGradient>
+        </defs>
+        <path d={RIVER_BANKS[0]} style={{ fill: "var(--plane-3)" }} />
+        <rect x="-40" y="150" width="1680" height="80" fill="url(#river-mist)" className="mist-band" />
+        <path d={RIVER_BANKS[1]} style={{ fill: "var(--plane-4)" }} />
+        {/* the river: pale where it catches the dawn, deepening into sea colour as it widens */}
+        <g clipPath="url(#on-land)">
+          <path d={RIVER} fill="url(#river-flow)" />
+          <path d={RIVER} clipPath="url(#above-sea)" fill="none" stroke="url(#river-edge)" strokeWidth={1.5} />
+        </g>
+        {/* the shoulder of the mountain the river disappears behind */}
+        <path d={RIVER_SPUR} style={{ fill: "var(--plane-4)" }} />
+        {/* the footer's solid ground the river rises from */}
+        <rect y="330" width="1600" height="90" fill="url(#sea-fade)" />
+        <g className="wave-flow" style={{ ["--wave-speed" as string]: "44s" }}>
+          <path d={SEA_BACK} style={{ fill: "var(--sea)", opacity: 0.7 }} />
+        </g>
+        <g className="wave-flow" style={{ ["--wave-speed" as string]: "30s" }}>
+          <path d={SEA_FRONT} style={{ fill: "var(--sea)" }} />
+          <path d={SEA_FRONT_LINE} style={{ fill: "none", stroke: "var(--river-light)", strokeOpacity: 0.28, strokeWidth: 1.5 }} />
+        </g>
+      </svg>
+
+      <div className="-mt-px bg-[var(--sea)]">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 pt-6 pb-10 sm:grid-cols-2 sm:px-8 lg:grid-cols-12">
+          <div className="sm:col-span-2 lg:col-span-5">
+            <BrandLogo size="lg" className="[--river-ink:#c7d3da]" />
+            <p className="mt-5 max-w-sm text-pine-muted">
+              Named after the Hajolong (Kassalong in Bangla), a river in the Chittagong Hill Tracts of Bangladesh, where
+              our team comes from.
             </p>
           </div>
 
-          {/* Navigation Columns */}
-          <div className="md:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-8">
-            <div>
-              <h5 className="text-xs font-heading font-bold text-[var(--accent-highlight)] uppercase tracking-wider mb-3">
-                Navigation
-              </h5>
-              <ul className="space-y-2 text-xs text-[var(--text-secondary)]">
-                <li><Link href="/solutions" className="hover:text-[var(--text-primary)] transition-colors">Solutions & AI</Link></li>
-                <li><Link href="/services" className="hover:text-[var(--text-primary)] transition-colors">Services & Consulting</Link></li>
-                <li><Link href="/about" className="hover:text-[var(--text-primary)] transition-colors">About Us & Team</Link></li>
-                <li><Link href="/contact" className="hover:text-[var(--text-primary)] transition-colors">Contact Us</Link></li>
-              </ul>
-            </div>
-
-            <div>
-              <h5 className="text-xs font-heading font-bold text-[var(--accent-highlight)] uppercase tracking-wider mb-3">
-                Solutions
-              </h5>
-              <ul className="space-y-2 text-xs text-[var(--text-secondary)]">
-                <li><Link href="/solutions" className="hover:text-[var(--text-primary)] transition-colors">Custom Web Platforms</Link></li>
-                <li><Link href="/solutions" className="hover:text-[var(--text-primary)] transition-colors">Autonomous AI Bots</Link></li>
-                <li><Link href="/solutions" className="hover:text-[var(--text-primary)] transition-colors">System Redesign</Link></li>
-                <li><Link href="/solutions" className="hover:text-[var(--text-primary)] transition-colors">API Integration</Link></li>
-                <li><Link href="/solutions" className="hover:text-[var(--text-primary)] transition-colors">Data Management</Link></li>
-              </ul>
-            </div>
-
-            <div>
-              <h5 className="text-xs font-heading font-bold text-[var(--accent-highlight)] uppercase tracking-wider mb-3">
-                Services
-              </h5>
-              <ul className="space-y-2 text-xs text-[var(--text-secondary)]">
-                <li><Link href="/services" className="hover:text-[var(--text-primary)] transition-colors">IT Consulting</Link></li>
-                <li><Link href="/services" className="hover:text-[var(--text-primary)] transition-colors">Digital Strategy</Link></li>
-                <li><Link href="/services" className="hover:text-[var(--text-primary)] transition-colors">Audience Growth</Link></li>
-                <li><Link href="/services" className="hover:text-[var(--text-primary)] transition-colors">Business Automation</Link></li>
-              </ul>
-            </div>
-
-            <div>
-              <h5 className="text-xs font-heading font-bold text-[var(--accent-highlight)] uppercase tracking-wider mb-3">
-                Direct Contact
-              </h5>
-              <ul className="space-y-2.5 text-xs text-[var(--text-secondary)]">
-                <li>
-                  <a
-                    href="https://mail.google.com/mail/?view=cm&fs=1&to=contact@hajolong.com&su=Project%20Inquiry%20%E2%80%94%20Hajolong%20Solutions"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-[var(--accent-highlight)] transition-colors inline-flex items-center gap-2 font-medium"
-                  >
-                    <svg className="w-3.5 h-3.5 shrink-0 text-[var(--accent-highlight)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="2" y="4" width="20" height="16" rx="2.5" />
-                      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-                    </svg>
-                    <span>contact@hajolong.com</span>
-                  </a>
-                </li>
-                <li className="text-[var(--text-muted)]">
-                  Response SLA: &lt; 2 Hours
-                </li>
-                <li>
-                  <a
-                    href="https://www.linkedin.com/company/hajolong-solution/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-[#0A66C2] transition-colors inline-flex items-center gap-2 font-medium"
-                  >
-                    <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none">
-                      <rect width="24" height="24" rx="4" fill="#0A66C2" />
-                      <path
-                        d="M7.4 19H4.3V9.5h3.1V19zM5.85 8.2c-1 0-1.8-.8-1.8-1.8 0-1 .8-1.8 1.8-1.8 1 0 1.8.8 1.8 1.8 0 1-.8 1.8-1.8 1.8zM19.7 19h-3.1v-4.9c0-1.2 0-2.7-1.7-2.7s-1.9 1.3-1.9 2.6V19H9.9V9.5h3v1.3h0c.4-.8 1.5-1.6 3-1.6 3.2 0 3.8 2.1 3.8 4.9V19z"
-                        fill="white"
-                      />
-                    </svg>
-                    <span>LinkedIn</span>
-                  </a>
-                </li>
-                <li>
-                  <Link
-                    href="/contact"
-                    className="text-[var(--accent-highlight)] hover:underline inline-flex items-center gap-1 font-semibold pt-0.5"
-                  >
-                    Start a Conversation &rarr;
+          <nav aria-label="Footer" className="lg:col-span-3">
+            <h2 className="label-caps text-pine-muted">Explore</h2>
+            <ul className="mt-4 grid gap-2.5">
+              {explore.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="hover:underline">
+                    {l.label}
                   </Link>
                 </li>
-              </ul>
-            </div>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="min-w-0 lg:col-span-4">
+            <h2 className="label-caps text-pine-muted">Talk to us</h2>
+            <ul className="mt-4 grid gap-3">
+              <li>
+                <a
+                  href={gmailComposeUrl("Project inquiry for Hajolong Solutions")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2.5 font-display text-xl font-bold hover:underline"
+                >
+                  <Mail className="size-5 text-pine-muted" aria-hidden="true" />
+                  {CONTACT_EMAIL}
+                </a>
+              </li>
+              <li>
+                <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2.5 break-all hover:underline">
+                  <LinkedInIcon className="size-5 shrink-0" />
+                  linkedin.com/company/hajolong-solution
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
-
-        {/* Bottom Credits */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--text-muted)] font-sans">
-          <div>
-            &copy; 2026 HAJOLONG Solutions Inc. All rights reserved.
-          </div>
-          <div>
-            Enterprise Engineering • Custom AI Bots • Modern Systems
-          </div>
+        <div className="mx-auto flex max-w-7xl flex-col gap-2 border-t border-white/10 px-5 py-6 text-sm text-pine-muted sm:flex-row sm:justify-between sm:px-8">
+          <p>&copy; 2026 HAJOLONG Solutions Inc. All rights reserved.</p>
+          <p>Rooted in the Chittagong Hill Tracts.</p>
         </div>
       </div>
     </footer>

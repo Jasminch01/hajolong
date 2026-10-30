@@ -1,416 +1,321 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700..800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap');
 @import "tailwindcss";
+@import "tw-animate-css";
 
-@theme inline {
-  --font-display: var(--font-display, 'Bricolage Grotesque'), sans-serif;
-  --font-heading: var(--font-heading, 'Outfit'), sans-serif;
-  --font-sans: var(--font-sans, 'Plus Jakarta Sans'), sans-serif;
-  --font-mono: var(--font-mono, 'JetBrains Mono'), monospace;
-}
+@custom-variant dark (&:is([data-theme="dark"] *));
 
 /* ============================================================
-   Luxe Cream (Cashmere Editorial Triad)
-   3 Colors: Royal Azure (#0052cc) + Sunset Amber (#ea580c) + Deep Warm Espresso (#181615)
-   Canvas: Warm Cashmere Cream (#f6f3ed) with Ceramic White (#ffffff) float cards
+   Hill Tracts Dawn
+   Light = dawn over the ridges. Dark = dusk with the lamps lit.
+   Lamp amber is reserved for the primary action and live state.
    ============================================================ */
 :root,
-html,
 html[data-theme="light"] {
-  --bg-deep: #f6f3ed;
-  --bg-canvas: #ede7dc;
-  --bg-surface: #ffffff;
-  --bg-surface-elevated: #f2ede4;
-  --bg-surface-glass: rgba(255, 255, 255, 0.92);
+  /* Scenery planes, far to near */
+  --sky-top: #b9c8d0;
+  --sky-low: #e4e3d8;
+  --sun: #f2c27a;
+  --plane-1: #a6b6bd;
+  --plane-2: #8a9e9c;
+  --plane-3: #66806f;
+  --plane-4: #3f5a45;
+  --plane-5: #2a211a;
+  --mist: #e9eeeb;
+  --river: #9fb7c3;
+  --river-light: #dfe8ec;
+  --sea: #2c4a55;
+  --river-ink: #5f8aa0;
 
-  /* 3-Color Dynamic Gradient */
-  --accent-primary: #0052cc;
-  --accent-primary-gradient: linear-gradient(135deg, #0052cc 0%, #4338ca 45%, #ea580c 100%);
-  --accent-primary-hover: linear-gradient(135deg, #0044b3 0%, #3730a3 45%, #c2410c 100%);
-  --accent-secondary: #ea580c;
-  --accent-highlight: #0052cc;
-  --accent-cyan: #ea580c;
+  --background: #e9eeeb;
+  --foreground: #13241d;
+  --card: #f6f2e9;
+  --card-foreground: #13241d;
+  --popover: #f7f8f5;
+  --popover-foreground: #13241d;
+  --primary: #f2b24a;
+  --primary-foreground: #1a1410;
+  --secondary: #1e3a2e;
+  --secondary-foreground: #eef2ee;
+  --muted: #dde4df;
+  --muted-foreground: #46594f;
+  --accent: #dbe4dd;
+  --accent-foreground: #13241d;
+  --destructive: #b3261e;
+  --border: rgb(30 58 46 / 0.16);
+  --input: rgb(30 58 46 / 0.24);
+  --ring: #c98a1f;
 
-  /* Warm Luxe Tokens */
-  --neon-cyan: #0052cc;
-  --neon-rose: #ea580c;
-  --neon-blue: #4338ca;
-  --glow-neon: 0 10px 24px rgba(0, 0, 0, 0.08);
-  --neon-spotlight: rgba(0, 82, 204, 0.06);
-
-  --glow-cyan: rgba(0, 82, 204, 0.12);
-  --glow-blue: rgba(234, 88, 12, 0.12);
-  --glow-subtle: rgba(234, 88, 12, 0.06);
-
-  --border-subtle: rgba(40, 30, 20, 0.08);
-  --border-glass: rgba(40, 30, 20, 0.12);
-  --border-accent: rgba(0, 82, 204, 0.35);
-
-  /* Font Color Mix: Deep Warm Espresso (#181615), Warm Stone (#57534e), and Azure accents */
-  --text-primary: #181615;
-  --text-secondary: #57534e;
-  --text-muted: #8a837b;
-  --sweep-center: #ea580c;
-
-  --nav-bg: rgba(246, 243, 237, 0.94);
-  --mesh-gradient: 
-    radial-gradient(circle at 18% 18%, rgba(234, 88, 12, 0.12) 0%, transparent 45%),
-    radial-gradient(circle at 82% 28%, rgba(0, 82, 204, 0.12) 0%, transparent 40%),
-    radial-gradient(circle at 50% 75%, rgba(67, 56, 202, 0.08) 0%, transparent 50%),
-    var(--bg-deep);
+  --pine: #1e3a2e;
+  --pine-ink: #eef2ee;
+  --pine-muted: #c4c9bd;
+  --lamp: #f2b24a;
+  --lamp-deep: #8a5a0c;
+  --cel-edge: rgb(255 255 255 / 0.7);
+  --cel-shadow: 0 1px 2px rgb(19 36 29 / 0.06), 0 14px 32px -18px rgb(19 36 29 / 0.35);
+  --cel-shadow-lift: 0 2px 4px rgb(19 36 29 / 0.08), 0 22px 40px -18px rgb(19 36 29 / 0.42);
+  --grain-opacity: 0.07;
+  --radius: 0.875rem;
+  color-scheme: light;
 }
 
-/* ============================================================
-   Dark Mode (High-Tech Enterprise Obsidian)
-   ============================================================ */
 html[data-theme="dark"] {
-  --bg-deep: #090d16;
-  --bg-canvas: #0e1320;
-  --bg-surface: #131b2e;
-  --bg-surface-elevated: #1a243d;
-  --bg-surface-glass: rgba(19, 27, 46, 0.88);
+  --sky-top: #0b1412;
+  --sky-low: #23302b;
+  --sun: #b8742a;
+  --plane-1: #3b4a44;
+  --plane-2: #2d3b35;
+  --plane-3: #222e29;
+  --plane-4: #19231f;
+  --plane-5: #1a1410;
+  --mist: #17130f;
+  --river: #4d6773;
+  --river-light: #8eaab6;
+  --sea: #182a30;
+  --river-ink: #9fbccb;
 
-  --accent-primary: #0052cc;
-  --accent-primary-gradient: linear-gradient(135deg, #0052cc 0%, #3b82f6 100%);
-  --accent-primary-hover: linear-gradient(135deg, #0044b3 0%, #2563eb 100%);
-  --accent-secondary: #f97316;
-  --accent-highlight: #38bdf8;
-  --accent-cyan: #38bdf8;
+  --background: #17130f;
+  --foreground: #e8e6df;
+  --card: #221c16;
+  --card-foreground: #e3e9e5;
+  --popover: #261f18;
+  --popover-foreground: #e3e9e5;
+  --primary: #f2b24a;
+  --primary-foreground: #1a1410;
+  --secondary: #c7d3da;
+  --secondary-foreground: #101915;
+  --muted: #1f1a14;
+  --muted-foreground: #aeb2a6;
+  --accent: #2a231b;
+  --accent-foreground: #e3e9e5;
+  --destructive: #e5675e;
+  --border: rgb(199 211 218 / 0.13);
+  --input: rgb(199 211 218 / 0.2);
+  --ring: #f2b24a;
 
-  --neon-cyan: #38bdf8;
-  --neon-rose: #f97316;
-  --neon-blue: #60a5fa;
-  --glow-neon: 0 10px 24px rgba(0, 0, 0, 0.35);
-  --neon-spotlight: rgba(56, 189, 248, 0.08);
-
-  --glow-cyan: rgba(56, 189, 248, 0.15);
-  --glow-blue: rgba(96, 165, 250, 0.12);
-  --glow-subtle: rgba(56, 189, 248, 0.06);
-
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-glass: rgba(255, 255, 255, 0.12);
-  --border-accent: rgba(56, 189, 248, 0.4);
-
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --sweep-center: #38bdf8;
-
-  --nav-bg: rgba(9, 13, 22, 0.92);
-  --mesh-gradient: 
-    radial-gradient(circle at 18% 18%, rgba(56, 189, 248, 0.08) 0%, transparent 45%),
-    radial-gradient(circle at 82% 28%, rgba(0, 82, 204, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 50% 75%, rgba(96, 165, 250, 0.06) 0%, transparent 50%),
-    var(--bg-deep);
+  --pine: #1c3329;
+  --pine-ink: #e3e9e5;
+  --pine-muted: #a9bbb1;
+  --lamp: #f2b24a;
+  --lamp-deep: #f2b24a;
+  --cel-edge: rgb(199 211 218 / 0.08);
+  --cel-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 16px 36px -20px rgb(0 0 0 / 0.7);
+  --cel-shadow-lift: 0 2px 4px rgb(0 0 0 / 0.35), 0 24px 44px -20px rgb(0 0 0 / 0.8);
+  --grain-opacity: 0.09;
+  color-scheme: dark;
 }
 
-* {
-  box-sizing: border-box;
+@theme inline {
+  --font-display: var(--font-alegreya), "Alegreya", Georgia, serif;
+  --font-sans: var(--font-alegreya-sans), "Alegreya Sans", system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-pine: var(--pine);
+  --color-pine-ink: var(--pine-ink);
+  --color-pine-muted: var(--pine-muted);
+  --color-lamp: var(--lamp);
+  --color-lamp-deep: var(--lamp-deep);
+  --color-mist: var(--mist);
+  --color-sea: var(--sea);
+
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-html {
-  scroll-behavior: smooth;
-  background-color: var(--bg-deep);
-  color: var(--text-primary);
-  font-family: var(--font-sans), 'Plus Jakarta Sans', sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+/* Large displays: every rem-based size (type, spacing, the 80rem content width) grows with the screen */
+@media (min-width: 1920px) { html { font-size: 112.5%; } }
+@media (min-width: 2400px) { html { font-size: 131.25%; } }
+@media (min-width: 3000px) { html { font-size: 156.25%; } }
+@media (min-width: 3600px) { html { font-size: 181.25%; } }
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    background: var(--background);
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    font-feature-settings: "kern", "liga";
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+    letter-spacing: -0.015em;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--lamp);
+    color: #1a1410;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+  a {
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+  input, textarea {
+    caret-color: var(--lamp-deep);
+  }
+  html {
+    scrollbar-color: color-mix(in oklab, var(--foreground) 28%, transparent) transparent;
+  }
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  background-color: var(--bg-deep);
-  color: var(--text-primary);
-  font-family: var(--font-sans), 'Plus Jakarta Sans', sans-serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
 
-/* 1. Display Font: Bricolage Grotesque — ONLY Hero H1, Huge Numbers, Main CTA Headlines */
-h1,
-.font-display {
-  font-family: var(--font-display), 'Bricolage Grotesque', sans-serif;
-  letter-spacing: -0.032em;
+/* ------------------------------------------------------------
+   Painted cel: the card material of this world
+   ------------------------------------------------------------ */
+.cel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: inset 0 1px 0 var(--cel-edge), var(--cel-shadow);
 }
-
-/* 2. Heading Font: Outfit — H2, H3, H4, Navigation, Card Titles, Section Titles */
-h2,
-h3,
-h4,
-nav a,
-.font-heading {
-  font-family: var(--font-heading), 'Outfit', sans-serif;
-  letter-spacing: -0.02em;
+.cel-pine {
+  background: var(--pine);
+  color: var(--pine-ink);
+  border: 1px solid rgb(255 255 255 / 0.06);
+  border-radius: var(--radius-xl);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08), var(--cel-shadow);
 }
-
-/* 3. Body Font: Plus Jakarta Sans — Paragraphs, Buttons, Inputs, Forms, Footer, FAQ */
-p,
-button,
-input,
-textarea,
-select,
-label,
-footer,
-.font-sans {
-  font-family: var(--font-sans), 'Plus Jakarta Sans', sans-serif;
+.cel-lift {
+  transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo), border-color 0.3s;
 }
-
-/* 4. Mono Font: JetBrains Mono — ONLY Technical Labels, Percentages, API/AI/KPI Metadata, Badges */
-.font-mono,
-code,
-pre {
-  font-family: var(--font-mono), 'JetBrains Mono', monospace;
-}
-
-/* Custom Utilities */
-.bg-mesh {
-  background: var(--mesh-gradient);
-}
-
-.glass-card {
-  background: var(--bg-surface-glass);
-  border: 1px solid var(--border-glass);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
-.text-gradient {
-  background: var(--accent-primary-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Crisp Animated Gradient Text - Strictly Inside Letters (Zero Outer Glow Bleed) */
-@keyframes neon-text-flow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.neon-text-sweep {
-  display: inline-block;
-  background: linear-gradient(90deg, var(--neon-cyan) 0%, var(--accent-secondary) 50%, var(--neon-cyan) 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: neon-text-flow 5s ease-in-out infinite;
-  filter: none;
-}
-
-html[data-theme="light"] .neon-text-sweep {
-  filter: none;
-}
-
-/* ============================================================
-   Clean, Simple Solid Blue Button System
-   ============================================================ */
-.btn-primary {
-  background: #0052cc;
-  color: #ffffff;
-  border: 1px solid #0044b3;
-  box-shadow: 0 3px 10px rgba(0, 82, 204, 0.22);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-primary:hover {
-  background: #0044b3;
-  border-color: #003894;
-  box-shadow: 0 6px 16px rgba(0, 82, 204, 0.32);
-  color: #ffffff;
+.cel-lift:hover {
   transform: translateY(-2px);
+  box-shadow: inset 0 1px 0 var(--cel-edge), var(--cel-shadow-lift);
 }
 
-.btn-secondary {
-  background: var(--bg-surface-elevated);
-  border: 1px solid var(--border-glass);
-  color: var(--text-primary);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+/* Small caps label voice, used for metadata, never above headings */
+.label-caps {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
-.btn-secondary:hover {
-  background: var(--bg-surface);
-  border-color: var(--border-accent);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
-  color: #0052cc;
-  transform: translateY(-2px);
-}
-
-/* Global button transition */
-button:not([disabled]) {
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Active tab / pill */
-.btn-neon-active {
-  background: #0052cc !important;
-  color: #ffffff !important;
-  border: 1px solid #0044b3 !important;
-  box-shadow: 0 3px 10px rgba(0, 82, 204, 0.22) !important;
-}
-
-/* ============================================================
-   Premium Pastel Vector Icon Badge System (Shiftly Standard)
-   ============================================================ */
-.icon-badge {
-  width: 45px;
-  height: 45px;
-  border-radius: 14px;
-  display: inline-grid;
-  place-items: center;
-  flex-shrink: 0;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.icon-badge svg {
-  width: 22px;
-  height: 22px;
-  stroke-width: 1.65;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.icon-peach {
-  background: #fce5d8;
-  color: #955330;
-  border: 1px solid #f4d3c1;
-}
-
-.icon-blue {
-  background: #e6effd;
-  color: #0052cc;
-  border: 1px solid #cfe0fb;
-}
-
-.icon-lilac {
-  background: #eae4f9;
-  color: #5845c8;
-  border: 1px solid #dcd2f5;
-}
-
-.icon-mint {
-  background: #dfede4;
-  color: #2d6a4f;
-  border: 1px solid #c9dfd1;
-}
-
-.icon-rose {
-  background: #f7e1e9;
-  color: #9d4f6c;
-  border: 1px solid #edd0dc;
-}
-
-html[data-theme="dark"] .icon-peach {
-  background: rgba(217, 107, 39, 0.14);
-  color: #f59e6c;
-  border-color: rgba(217, 107, 39, 0.28);
-}
-
-html[data-theme="dark"] .icon-blue {
-  background: rgba(56, 139, 253, 0.14);
-  color: #6ea8fe;
-  border-color: rgba(56, 139, 253, 0.28);
-}
-
-html[data-theme="dark"] .icon-lilac {
-  background: rgba(139, 92, 246, 0.14);
-  color: #b794f4;
-  border-color: rgba(139, 92, 246, 0.28);
-}
-
-html[data-theme="dark"] .icon-mint {
-  background: rgba(52, 211, 153, 0.14);
-  color: #6ee7b7;
-  border-color: rgba(52, 211, 153, 0.28);
-}
-
-html[data-theme="dark"] .icon-rose {
-  background: rgba(236, 72, 153, 0.14);
-  color: #f472b6;
-  border-color: rgba(236, 72, 153, 0.28);
-}
-
-@keyframes float-slow {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-12px) rotate(1deg); }
-}
-
-.animate-float {
-  animation: float-slow 5s ease-in-out infinite;
-}
-
-@keyframes pulse-subtle {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.92); }
-}
-
-.animate-pulse-dot {
-  animation: pulse-subtle 2s infinite ease-in-out;
-}
-
-/* 3D Orbital Ring for Mascot */
-@keyframes orbit-spin {
-  from { transform: translateX(-50%) rotateX(72deg) rotate(0deg); }
-  to { transform: translateX(-50%) rotateX(72deg) rotate(360deg); }
-}
-
-.holographic-orbital-ring {
-  position: absolute;
-  bottom: -15px;
-  left: 50%;
-  transform: translateX(-50%) rotateX(72deg);
-  width: 340px;
-  height: 340px;
-  border-radius: 50%;
-  border: 1px dashed var(--border-accent);
-  animation: orbit-spin 22s linear infinite;
+/* Fine gouache grain over the whole page */
+.grain {
+  position: fixed;
+  inset: 0;
   pointer-events: none;
+  z-index: 60;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.12 0 0 0 0 0.1 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+html[data-theme="dark"] .grain {
+  mix-blend-mode: soft-light;
 }
 
-/* Low Background Ambient Neon Drifting Lights */
-@keyframes ambient-neon-drift-1 {
-  0%, 100% { transform: translate(0px, 0px) scale(1); }
-  50% { transform: translate(35px, 30px) scale(1.08); }
+/* ------------------------------------------------------------
+   Scenery: parallax planes and drifting mist
+   --scroll is 0..1 across the scene, set from one rAF listener
+   ------------------------------------------------------------ */
+.scene-plane {
+  will-change: transform;
+  transform: translate3d(0, calc(var(--scroll, 0) * var(--depth, 0) * 1px), 0);
+}
+.mist-band {
+  animation: mist-drift 48s ease-in-out infinite alternate;
+}
+/* water: wave layers are two periods wider than the view and slide by one
+   full period, so the loop never shows a seam */
+.wave-flow {
+  animation: wave-flow var(--wave-speed, 38s) linear infinite;
+}
+@keyframes wave-flow {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-1600px, 0, 0); }
+}
+@keyframes mist-drift {
+  from { transform: translate3d(-3%, 0, 0); }
+  to { transform: translate3d(3%, 0, 0); }
 }
 
-@keyframes ambient-neon-drift-2 {
-  0%, 100% { transform: translate(0px, 0px) scale(1); }
-  50% { transform: translate(-30px, 40px) scale(1.06); }
+.sky {
+  background:
+    radial-gradient(ellipse 42% 48% at 74% 62%, color-mix(in oklab, var(--sun) 55%, transparent), transparent 70%),
+    linear-gradient(to bottom, var(--sky-top) 0%, var(--sky-low) 72%);
 }
 
-@keyframes ambient-neon-drift-3 {
-  0%, 100% { transform: translate(0px, 0px) scale(1); }
-  50% { transform: translate(25px, -35px) scale(1.05); }
+/* One short rise for content entering the view; visible by default */
+.reveal {
+  opacity: 1;
+}
+.js-motion .reveal:not(.is-in) {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+}
+.js-motion .reveal {
+  transition: opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo);
+  transition-delay: var(--delay, 0ms);
 }
 
-.ambient-neon-orb-1 {
-  animation: ambient-neon-drift-1 20s ease-in-out infinite;
+/* Genghuli: arm, head, body and eyes move on Motion springs (Genghuli.tsx).
+   CSS only owns the blink. */
+@media (prefers-reduced-motion: no-preference) {
+  .genghuli-eyes {
+    animation: genghuli-blink 4.6s ease-in-out infinite;
+  }
+}
+@keyframes genghuli-blink {
+  0%, 90%, 100% { transform: scaleY(1); }
+  94% { transform: scaleY(0.08); }
+}
+.genghuli-eyes {
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
-.ambient-neon-orb-2 {
-  animation: ambient-neon-drift-2 24s ease-in-out infinite;
+/* Typing caret in the agent demo */
+.caret::after {
+  content: "";
+  display: inline-block;
+  width: 0.5ch;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.12em;
+  background: currentColor;
+  opacity: 0.6;
+  animation: caret-blink 1s steps(2) infinite;
+}
+@keyframes caret-blink {
+  50% { opacity: 0; }
 }
 
-.ambient-neon-orb-3 {
-  animation: ambient-neon-drift-3 28s ease-in-out infinite;
-}
-
-/* Eradicate Next.js dev indicator / "N" badge from all pages */
-nextjs-portal,
-#__next-build-watcher,
-[data-nextjs-toast],
-[data-nextjs-dev-indicator],
-[data-nextjs-dialog-overlay],
-div[data-nextjs-dev-tools-button],
-button[aria-label="Next.js Dev Tools"] {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  position: absolute !important;
-  left: -9999px !important;
-  top: -9999px !important;
-  width: 0 !important;
-  height: 0 !important;
+@media (prefers-reduced-motion: reduce) {
+  .scene-plane { transform: none !important; }
+  .mist-band, .genghuli-eyes, .wave-flow { animation: none !important; }
+  .js-motion .reveal:not(.is-in) { opacity: 1; transform: none; }
+  * { transition-duration: 0.01ms !important; }
 }

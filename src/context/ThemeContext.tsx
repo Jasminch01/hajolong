@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useCallback, useContext, useSyncExternalStore } from "react";
 
 export type Theme = "light" | "dark";
 
@@ -16,32 +16,28 @@ const ThemeContext = createContext<ThemeContextType>({
   setTheme: () => {},
 });
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("light");
+// The inline script in layout.tsx sets data-theme before paint; this store
+// simply follows that attribute so React never disagrees with the page.
+const readTheme = (): Theme =>
+  document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
 
-  useEffect(() => {
-    const saved = localStorage.getItem("hajolong-theme") as Theme | null;
-    if (saved === "light" || saved === "dark") {
-      setThemeState(saved);
-      document.documentElement.setAttribute("data-theme", saved);
-    } else {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const initial: Theme = prefersDark ? "dark" : "light";
-      setThemeState(initial);
-      document.documentElement.setAttribute("data-theme", initial);
-    }
+const subscribe = (onChange: () => void) => {
+  const mo = new MutationObserver(onChange);
+  mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  return () => mo.disconnect();
+};
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const theme = useSyncExternalStore<Theme>(subscribe, readTheme, () => "light");
+
+  const setTheme = useCallback((next: Theme) => {
+    document.documentElement.setAttribute("data-theme", next);
+    try {
+      localStorage.setItem("hajolong-theme", next);
+    } catch {}
   }, []);
 
-  const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
-    document.documentElement.setAttribute("data-theme", newTheme);
-    localStorage.setItem("hajolong-theme", newTheme);
-  };
-
-  const toggleTheme = () => {
-    const next: Theme = theme === "light" ? "dark" : "light";
-    setTheme(next);
-  };
+  const toggleTheme = useCallback(() => setTheme(readTheme() === "light" ? "dark" : "light"), [setTheme]);
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
