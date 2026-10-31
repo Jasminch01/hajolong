@@ -214,6 +214,27 @@ html[data-theme="dark"] {
   box-shadow: inset 0 1px 0 var(--cel-edge), var(--cel-shadow-lift);
 }
 
+/* Fill buttons: a straight band of colour sweeps in from the left, the way the arrow points */
+.btn-fill {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.btn-fill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--fill, color-mix(in oklab, currentColor 14%, transparent));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s linear;
+}
+.btn-fill:hover::before,
+.btn-fill:focus-visible::before {
+  transform: scaleX(1);
+}
+
 /* Small caps label voice, used for metadata, never above headings */
 .label-caps {
   font-family: var(--font-sans);

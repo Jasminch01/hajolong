@@ -1,5 +1,6 @@
 import Image from "next/image";
 import PageHero from "@/components/PageHero";
+import { TeamFaces } from "@/components/HeroPanels";
 import { Emblem } from "@/components/BrandLogo";
 import ClosingCall from "@/components/ClosingCall";
 import { RidgeSeam } from "@/components/scenery/Ridges";
@@ -15,15 +16,16 @@ export default function AboutPage() {
   return (
     <>
       <PageHero
-        title="Built by engineers from the Chittagong Hill Tracts."
-        lead="We started Hajolong Solutions to replace slow legacy software with fast, modern systems, built with the discipline of an established firm."
+        title="Named after a river, built to last."
+        lead="Hajolong is the river our team grew up beside. We build software the same way it flows: steady, clear, and here for the long run."
+        aside={<TeamFaces />}
       />
 
       <section className="bg-[var(--plane-5)] pt-10 pb-[calc(5rem+min(8.75vw,150px))] text-pine-ink" aria-labelledby="name-title">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-12">
           <div className="reveal lg:col-span-5">
             <h2 id="name-title" className="font-display text-[clamp(2rem,3.6vw,3rem)] leading-[1.06] font-extrabold">
-              Named after a river.
+              Where the name comes from.
             </h2>
             <Emblem className="mt-10 h-44 w-40 text-pine-ink/85 [--river-ink:var(--river)]" />
           </div>

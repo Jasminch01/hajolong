@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Layers, ScanSearch, Route, Handshake } from "lucide-react";
 import PageHero from "@/components/PageHero";
+import { HowWeWork } from "@/components/HeroPanels";
 import ProcessLine from "@/components/ProcessLine";
 import ClosingCall from "@/components/ClosingCall";
 import { RidgeSeam } from "@/components/scenery/Ridges";
@@ -39,8 +40,14 @@ export default function ServicesPage() {
   return (
     <>
       <PageHero
-        title="Great software is useless if nobody uses it."
+        title={
+          <>
+            Great software is useless
+            <br className="hidden sm:block" /> if nobody uses it.
+          </>
+        }
         lead="So we pair senior engineering with practical growth consulting, and make sure what we build brings in revenue."
+        aside={<HowWeWork />}
       >
         <Button asChild variant="lamp" size="lg">
           <Link href="/contact?services=consulting">

@@ -1,31 +1,47 @@
 import { FarRidges, NearRidge } from "@/components/scenery/Ridges";
 
-/** A shorter dawn scene for inner pages: three far planes and the near ridge. */
+/**
+ * The dawn scene for inner pages. Copy sits on the left; `aside` holds one
+ * small, page-specific panel on the right (a map of the services, the process,
+ * the team, the reply promise) so the banner carries real content.
+ */
 export default function PageHero({
   title,
   lead,
   children,
+  aside,
 }: {
-  title: string;
+  title: React.ReactNode;
   lead: string;
   children?: React.ReactNode;
+  aside?: React.ReactNode;
 }) {
   return (
     <section data-scene className="relative -mt-16 overflow-hidden sky" aria-labelledby="page-title">
-      <FarRidges planes={4} className="absolute inset-x-0 bottom-0 h-[max(40%,27vw)] w-full" />
-      <div className="relative mx-auto max-w-7xl px-5 pt-32 pb-[clamp(200px,24vw,330px)] sm:px-8 sm:pt-36">
-        <h1
-          id="page-title"
-          className="reveal max-w-5xl font-display text-[clamp(2rem,4.2vw,3.9rem)] leading-[1.06] font-extrabold tracking-[-0.02em] text-foreground"
-        >
-          {title}
-        </h1>
-        <p className="reveal mt-5 max-w-[44rem] text-[1.15rem] leading-relaxed text-foreground/80" style={{ ["--delay" as string]: "80ms" }}>
-          {lead}
-        </p>
-        {children && (
-          <div className="reveal mt-9" style={{ ["--delay" as string]: "160ms" }}>
-            {children}
+      <FarRidges planes={4} className="absolute inset-x-0 bottom-0 h-[31.25vw] min-h-[150px] w-full" />
+      <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-5 pt-36 pb-[max(170px,17vw)] sm:px-8 sm:pt-44 lg:grid-cols-12">
+        <div className="lg:col-span-7">
+          <h1
+            id="page-title"
+            className="reveal font-display text-[clamp(2.25rem,4.6vw,4.25rem)] leading-[1.02] font-extrabold tracking-[-0.022em] text-foreground"
+          >
+            {title}
+          </h1>
+          <p
+            className="reveal mt-6 max-w-[36rem] text-[1.15rem] leading-[1.55] text-pretty text-foreground/80 sm:text-[1.3rem]"
+            style={{ ["--delay" as string]: "80ms" }}
+          >
+            {lead}
+          </p>
+          {children && (
+            <div className="reveal mt-9" style={{ ["--delay" as string]: "160ms" }}>
+              {children}
+            </div>
+          )}
+        </div>
+        {aside && (
+          <div className="reveal lg:col-span-5 lg:col-start-8" style={{ ["--delay" as string]: "220ms" }}>
+            {aside}
           </div>
         )}
       </div>

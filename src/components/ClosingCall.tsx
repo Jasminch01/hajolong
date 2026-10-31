@@ -25,7 +25,7 @@ export default function ClosingCall({
               {action} <ArrowRight />
             </Link>
           </Button>
-          <Button asChild variant="outline" size="lg">
+          <Button asChild variant="outline" size="lg" className="btn-fill">
             <Link href="/about">Meet the team</Link>
           </Button>
         </div>

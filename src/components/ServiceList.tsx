@@ -13,7 +13,7 @@ export default function ServiceList({ exclude = ["ai"] }: { exclude?: string[] }
           <li key={s.id} className="reveal border-b">
             <Link
               href={`/solutions#${s.id}`}
-              className="group grid grid-cols-[auto_1fr_auto] items-start gap-x-5 gap-y-1 rounded-lg px-2 py-6 transition-colors duration-300 hover:bg-accent/70 sm:grid-cols-[auto_minmax(0,18rem)_1fr_auto] sm:items-center sm:px-4"
+              className="group grid grid-cols-[auto_1fr_auto] items-start gap-x-5 gap-y-1 px-2 py-6 transition-colors duration-300 hover:bg-accent/70 sm:grid-cols-[auto_minmax(0,18rem)_1fr_auto] sm:items-center sm:px-4"
             >
               <span className="grid size-11 place-items-center rounded-xl bg-[var(--pine)] text-pine-ink transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:-rotate-6">
                 <Icon className="size-5" strokeWidth={1.75} aria-hidden="true" />

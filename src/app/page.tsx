@@ -46,7 +46,7 @@ export default function HomePage() {
                 The same team builds the platform your agent lives in, the systems it talks to and the dashboards you
                 read the results on.
               </p>
-              <Button asChild variant="outline" size="lg" className="mt-8">
+              <Button asChild variant="outline" size="lg" className="btn-fill mt-8">
                 <Link href="/solutions">
                   See every solution <ArrowRight />
                 </Link>

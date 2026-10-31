@@ -64,7 +64,7 @@ export default function Navbar() {
                 href={l.href}
                 aria-current={isActive(l.href) ? "page" : undefined}
                 className={cn(
-                  "relative rounded-md px-3.5 py-2 text-[0.95rem] font-medium text-foreground/75 transition-colors hover:text-foreground",
+                  "relative px-3.5 py-2 text-[0.95rem] font-medium text-foreground/75 transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:outline-none focus-visible:after:scale-x-100",
                   "after:absolute after:inset-x-3.5 after:-bottom-0.5 after:h-[2px] after:origin-left after:scale-x-0 after:rounded-full after:bg-foreground/35 after:transition-transform after:duration-500 after:ease-[var(--ease-out-expo)] hover:after:scale-x-100",
                   isActive(l.href) && "text-foreground after:hidden"
                 )}

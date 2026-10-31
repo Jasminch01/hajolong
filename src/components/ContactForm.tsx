@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "motion/react";
-import { ArrowRight, CircleCheck, X } from "lucide-react";
+import { CircleCheck, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { CONTACT_EMAIL, gmailComposeUrl } from "@/components/icons";
+import { CONTACT_EMAIL, PaperBoatIcon, gmailComposeUrl } from "@/components/icons";
 import { SERVICES, serviceById } from "@/lib/content";
 import { estimateWeeks } from "@/components/ScopeEstimator";
 import { cn } from "@/lib/utils";
@@ -169,8 +169,8 @@ export default function ContactForm() {
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-muted-foreground">Opens a ready-to-send email in Gmail, addressed to {CONTACT_EMAIL}.</p>
-        <Button type="submit" variant="lamp" size="lg" className="shrink-0">
-          Send to the team <ArrowRight />
+        <Button type="submit" variant="outline" size="lg" className="btn-fill shrink-0 border-lamp [--fill:var(--lamp)] hover:border-lamp hover:text-[#1a1410] focus-visible:text-[#1a1410]">
+          Send to Hajolong <PaperBoatIcon className="size-[1.4rem]" />
         </Button>
       </div>
     </form>

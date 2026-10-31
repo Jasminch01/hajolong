@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { Clock, Mail } from "lucide-react";
 import PageHero from "@/components/PageHero";
+import { ReplyPromise } from "@/components/HeroPanels";
 import ContactForm from "@/components/ContactForm";
 import { CONTACT_EMAIL, LINKEDIN_URL, LinkedInIcon, gmailComposeUrl } from "@/components/icons";
 
@@ -21,6 +22,7 @@ export default function ContactPage() {
       <PageHero
         title="Tell us what you want to build."
         lead="A new web app, an AI agent for your customers, or a rebuild of the system your team struggles with."
+        aside={<ReplyPromise />}
       />
 
       <section className="bg-[var(--plane-5)] pt-6 pb-24" aria-label="Contact">

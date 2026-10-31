@@ -14,3 +14,24 @@ export function LinkedInIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+
+/** A folded paper boat on a little water line, drawn to match Lucide's 2px stroke. */
+export function PaperBoatIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M3 13h18l-3 5H6z" />
+      <path d="M12 13V4l-5 9" />
+      <path d="M12 4l5 9" />
+      <path d="M2 21c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1 2.5-1 4-1" />
+    </svg>
+  );
+}
